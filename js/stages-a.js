@@ -269,7 +269,7 @@ print(model.predict(["幫我總結一下"]))   # -> ['summarize']`
   demo: null,
   project: "擴充意圖分類器:每類收集至少 20 筆句子,讓它辨識「摘要 / 翻譯 / 問答 / 閒聊」四種意圖。",
   resources: [
-    { n: "scikit-learn 官方入門教學", u: "https://scikit-learn.org/stable/tutorial/index.html" },
+    { n: "scikit-learn 官方入門教學", u: "https://scikit-learn.org/stable/getting_started.html" },
     { n: "Kaggle Learn 免費課程", u: "https://www.kaggle.com/learn" }
   ],
   next: "分類器背後只是冰山一角。下一站放大看:神經網路 — 所有現代 AI 的引擎。"
