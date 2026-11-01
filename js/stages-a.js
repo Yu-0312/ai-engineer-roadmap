@@ -93,7 +93,7 @@ print("熱門詞彙:", top_words(doc))`
     desc: "把 DocMind 放進版本控制,並用分支開發新功能。",
     src: `# 初始化 DocMind 專案
 git init
-echo ".env\\n__pycache__/\\n*.pdf" > .gitignore   # 保護金鑰與大檔案
+printf ".env\\n__pycache__/\\n*.pdf\\n" > .gitignore   # 保護金鑰與大檔案
 git add analyze.py .gitignore
 git commit -m "feat: 加入文件字數統計功能"
 
@@ -109,7 +109,7 @@ git push origin main`
     { q: "git commit 和 git push 的差別?",
       opts: ["完全一樣", "commit 存在本地,push 才推上遠端(GitHub)", "push 會刪除歷史紀錄", "commit 一次只能處理一個檔案"],
       a: 1,
-      why: "commit 是本機的快照(可以隨時做),push 才把這些快照同步到 GitHub 等遠端仓库。" },
+      why: "commit 是本機的快照(可以隨時做),push 才把這些快照同步到 GitHub 等遠端儲存庫。" },
     { q: "為什麼 .env 一定要放進 .gitignore?",
       opts: ["檔案太大拖慢速度", "裡面有 API 金鑰等機密,推上 GitHub 會外洩", "Git 不支援文字檔", "為了讓 commit 更快"],
       a: 1,
@@ -153,23 +153,23 @@ git push origin main`
   code: [{
     lang: "sql",
     name: "schema.sql",
-    desc: "DocMind 的核心資料表:文件、對話、訊息 — 之後第 11 站的 API 會直接使用它。",
-    src: `-- DocMind 的核心資料表
+    desc: "DocMind 的核心資料表(以 SQLite 為例):文件、對話、訊息 — 之後第 11 站的 API 會直接使用它。",
+    src: `-- DocMind 的核心資料表(SQLite,零安裝即可練習)
 CREATE TABLE documents (
-    id          SERIAL PRIMARY KEY,
+    id          INTEGER PRIMARY KEY AUTOINCREMENT,
     title       TEXT NOT NULL,
     content     TEXT,
-    uploaded_at TIMESTAMP DEFAULT NOW()
+    uploaded_at TEXT DEFAULT CURRENT_TIMESTAMP
 );
 
 CREATE TABLE chats (
-    id         SERIAL PRIMARY KEY,
+    id         INTEGER PRIMARY KEY AUTOINCREMENT,
     user_name  TEXT NOT NULL,
-    created_at TIMESTAMP DEFAULT NOW()
+    created_at TEXT DEFAULT CURRENT_TIMESTAMP
 );
 
 CREATE TABLE messages (
-    id       SERIAL PRIMARY KEY,
+    id       INTEGER PRIMARY KEY AUTOINCREMENT,
     chat_id  INTEGER REFERENCES chats(id),
     role     TEXT CHECK (role IN ('user', 'assistant')),
     content  TEXT NOT NULL
@@ -180,7 +180,10 @@ SELECT c.user_name, COUNT(m.id) AS msg_count
 FROM chats c
 JOIN messages m ON m.chat_id = c.id
 GROUP BY c.user_name
-ORDER BY msg_count DESC;`
+ORDER BY msg_count DESC;
+
+-- 換成 PostgreSQL 時:INTEGER PRIMARY KEY AUTOINCREMENT → SERIAL,
+-- 時間欄位 TEXT → TIMESTAMPTZ`
   }],
   quiz: [
     { q: "主鍵(Primary Key)的作用是?",
@@ -230,23 +233,33 @@ ORDER BY msg_count DESC;`
   code: [{
     lang: "python",
     name: "intent_classifier.py",
-    desc: "DocMind 的意圖分類器:判斷使用者想摘要、翻譯還是閒聊。",
+    desc: "DocMind 的意圖分類器:判斷使用者想摘要、翻譯還是閒聊。中文用字元 n-gram,才抓得到「總結 / 摘要」這類共享字。",
     src: `from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.linear_model import LogisticRegression
 from sklearn.pipeline import make_pipeline
 from sklearn.model_selection import train_test_split
 from sklearn.metrics import classification_report
 
-# DocMind 的意圖分類資料(實務上每類要數十筆以上)
-texts = ["幫我摘要這份文件", "總結重點", "把這段翻成英文",
-         "translate this", "今天天氣如何", "你好呀"]
-labels = ["summarize", "summarize", "translate",
-          "translate", "chitchat", "chitchat"]
+# 每類 6 句示意資料(實務上每類要數十到數百筆)
+texts = [
+    "幫我摘要這份文件", "總結一下重點", "這段話在說什麼",
+    "濃縮成三句話", "幫我抓出摘要", "重點整理一下",
+    "把這段翻成英文", "翻譯成日文", "幫我翻成中文",
+    "英文翻成中文", "這段幫我翻譯", "翻成法文",
+    "今天天氣如何", "你好呀", "午餐吃什麼好",
+    "講個笑話吧", "週末去哪玩", "你叫什麼名字",
+]
+labels = ["summarize"] * 6 + ["translate"] * 6 + ["chitchat"] * 6
 
 X_train, X_test, y_train, y_test = train_test_split(
-    texts, labels, test_size=0.25, random_state=42)
+    texts, labels, test_size=0.25, random_state=2026, stratify=labels)
 
-model = make_pipeline(TfidfVectorizer(), LogisticRegression())
+model = make_pipeline(
+    # 中文沒有空格,預設的詞級切分會把整句當成一個 token;
+    # 改用字元 n-gram 才能讓「總結」與「總結一下」共用特徵。
+    TfidfVectorizer(analyzer="char", ngram_range=(1, 2)),
+    LogisticRegression(max_iter=1000),
+)
 model.fit(X_train, y_train)
 
 print(classification_report(y_test, model.predict(X_test)))
@@ -282,7 +295,7 @@ print(model.predict(["幫我總結一下"]))   # -> ['summarize']`
   tagline: "神經網路 — LLM 的心臟",
   color: "#ee4c2c",
   duration: "約 4–6 週",
-  connection: "上一站的邏輯迴歸只有一層。把幾百萬層堆起來、用 GPU 加速,就是深度學習 — ChatGPT 的 Transformer 也是這樣長出來的。這一站親手訓練神經網路,之後看任何模型架構圖都不再害怕。",
+  connection: "上一站的邏輯迴歸只有一層。把數十到上百層疊起來、用 GPU 把參數放大到數十億甚至上千億個,就是深度學習 — ChatGPT 的 Transformer 也是這樣長出來的。這一站親手訓練神經網路,之後看任何模型架構圖都不再害怕。",
   contribution: "用 PyTorch 親手跑訓練迴圈,理解 loss、epoch、optimizer — 這是讀懂 LLM 訓練與微調(fine-tuning)的門票。",
   goals: [
     "理解張量(Tensor)與自動微分",
@@ -366,7 +379,7 @@ for epoch in range(200):
   concepts: [
     { t: "詞元", en: "Token", d: "模型讀文字的最小單位,可能是詞、子詞或標點。計費與 context 上限都以 token 計算。" },
     { t: "下一詞預測", en: "Next-token Prediction", d: "LLM 的本質:根據前文預測最可能的下一個 token,不斷重複,生成整段文字。" },
-    { t: "上下文視窗", en: "Context Window", d: "模型一次能「看到」的 token 上限。超出就會截斷 — 這正是第 8 章 RAG 存在的關鍵原因。" },
+    { t: "上下文視窗", en: "Context Window", d: "模型一次能「看到」的 token 上限。超出就會截斷 — 這正是第 8 站 RAG 存在的關鍵原因。" },
     { t: "溫度", en: "Temperature", d: "控制隨機度:低溫 = 穩定可預測(適合資料抽取);高溫 = 多樣有創意(適合腦力激盪)。" },
     { t: "預訓練 vs 微調", en: "Pre-training / Fine-tuning", d: "先用海量文字學會語言,再用少量資料調整行為。多數應用其實只需要好提示詞 + RAG。" }
   ],
@@ -379,7 +392,7 @@ for epoch in range(200):
 client = OpenAI()   # 自動讀取環境變數 OPENAI_API_KEY
 
 resp = client.chat.completions.create(
-    model="gpt-4o-mini",
+    model="gpt-6-luna",            # 便宜的小模型;以你帳號可用的為準
     temperature=0.3,               # 0=穩定一致, 1=奔放有創意
     messages=[
         {"role": "system",

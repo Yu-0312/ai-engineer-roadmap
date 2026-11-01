@@ -95,12 +95,16 @@ def build_prompt(question: str, context: str):
   code: [{
     lang: "python",
     name: "mini_rag.py",
-    desc: "最小可用 RAG:20 行程式碼,DocMind 的心臟就此誕生。",
+    desc: "最小可用 RAG:不到 30 行,DocMind 的心臟就此誕生。",
     src: `from openai import OpenAI
 import numpy as np
 
 client = OpenAI()
-chunks = [...]  # 預先切好的文件片段
+chunks = [
+    "退貨需在 14 天內完成,並附上發票。",
+    "產品保固期兩年,人為損壞除外。",
+    "門市營業時間為 9:00 至 18:00。",
+]
 
 def embed(text: str):
     r = client.embeddings.create(
@@ -118,7 +122,7 @@ def retrieve(question: str, k: int = 3):
 
 context = "\\n---\\n".join(retrieve("退貨政策是什麼?"))
 answer = client.chat.completions.create(
-    model="gpt-4o-mini",
+    model="gpt-6-luna",
     messages=[{"role": "user",
       "content": f"只依據以下資料回答並標註來源:\\n{context}\\n\\nQ: 退貨政策是什麼?"}],
 )
@@ -163,7 +167,7 @@ print(answer.choices[0].message.content)`
     "認識主流工具:Chroma / pgvector / Pinecone"
   ],
   concepts: [
-    { t: "嵌入向量", en: "Embedding", d: "把文字壓縮成數百維向量。語意相近的文本在向量空間中方向相近,連「國王−男人≈女王−女人」這種關係都被保留。" },
+    { t: "嵌入向量", en: "Embedding", d: "把文字壓縮成數百維向量。語意相近的文本在向量空間中方向相近;經典的 word2vec 甚至展現「國王 − 男人 + 女人 ≈ 女王」這種方向關係。" },
     { t: "餘弦相似度", en: "Cosine Similarity", d: "比較兩向量「方向」的相似程度,範圍 −1 到 1。越接近 1,語意越相近。" },
     { t: "向量資料庫", en: "Vector Database", d: "專門存向量、支援相似度搜尋的資料庫。百萬筆資料也能毫秒級找到最近鄰。" },
     { t: "ANN 索引", en: "HNSW / IVF", d: "近似最近鄰演算法:不逐一比對,用極小的準確率損失換來千倍的搜尋速度。" },
@@ -175,10 +179,11 @@ print(answer.choices[0].message.content)`
     desc: "用 Chroma 把第 8 站的 RAG 從玩具升級成正式的向量知識庫。",
     src: `import chromadb
 
-client = chromadb.Client()
+# PersistentClient 會把向量存到磁碟,重開程式也不會消失
+client = chromadb.PersistentClient(path="./chroma_db")
 col = client.get_or_create_collection("docmind_docs")
 
-# 存入文件(Chroma 會自動向量化)
+# 存入文件(Chroma 用預設 embedding 模型自動向量化,首次執行會下載)
 col.add(
     documents=[
         "退貨需在 14 天內完成,需附發票",
@@ -190,8 +195,8 @@ col.add(
 
 # 語意搜尋:問題沒有出現「退貨」兩個字也能命中
 res = col.query(query_texts=["可以退款嗎?"], n_results=2)
-print(res["documents"][0])
-# -> ['退貨需在 14 天內完成,需附發票', '產品保固期兩年,人為損壞除外']`
+for doc in res["documents"][0]:
+    print("-", doc)`
   }],
   quiz: [
     { q: "embedding 的核心特性是?",
@@ -205,7 +210,7 @@ print(res["documents"][0])
     { q: "「國王 − 男人 + 女人 ≈ 女王」說明了 embedding 的什麼?",
       opts: ["模型會做算術題", "向量空間保留了語意關係的結構(如性別、語言)", "模型很會翻譯", "只是巧合"],
       a: 1,
-      why: "embedding 不只記錄「意思」,還把語意之間的「關係」編碼成向量空間中的方向。" }
+      why: "經典的 word2vec 例子:embedding 不只記錄「意思」,還把性別等語意關係編碼成方向。不同模型保留這種關係的程度不一,但「語意近 = 向量近」是共通核心。" }
   ],
   demo: "embeddings",
   project: "把第 8 站的 RAG 從 numpy 換成 Chroma,支援新增/刪除文件,並用 20 個問題測試檢索品質。",
@@ -263,7 +268,7 @@ messages = [{"role": "user", "content": "知識庫現在有幾份文件?"}]
 
 while True:
     resp = client.chat.completions.create(
-        model="gpt-4o-mini", messages=messages, tools=tools)
+        model="gpt-6-luna", messages=messages, tools=tools)
     msg = resp.choices[0].message
     messages.append(msg)
 
@@ -337,11 +342,20 @@ RUN pip install --no-cache-dir -r requirements.txt
 
 COPY . .
 
-# API 金鑰由部署環境注入,不寫進映像
-ENV OPENAI_API_KEY=""
+# API 金鑰由部署環境注入(docker run -e 或雲端 Secrets),不寫進映像
 
 EXPOSE 8000
 CMD ["uvicorn", "main:app", "--host", "0.0.0.0", "--port", "8000"]`
+    },
+    {
+      lang: "text",
+      name: ".dockerignore",
+      desc: "搭配 Dockerfile 使用:少了這份清單,COPY . . 會把 .env、Git 歷史與測試檔案一起打包進映像。",
+      src: `.env
+.git
+__pycache__/
+*.pdf
+chroma_db/`
     },
     {
       lang: "python",
@@ -448,7 +462,7 @@ if __name__ == "__main__":
   project: "畢業專案:完成 DocMind 1.0 — 加上聊天介面、跑通 50 題 evals、部署上線,並寫一篇「我如何打造 DocMind」的技術文章。完成後,你已解鎖 AI Engineer。🏆",
   resources: [
     { n: "Streamlit(最快做出 AI 介面)", u: "https://streamlit.io/" },
-    { n: "LangSmith(LMM 評估與監控)", u: "https://smith.langchain.com/" }
+    { n: "LangSmith(LLM 評估與監控)", u: "https://smith.langchain.com/" }
   ],
   next: null
 }

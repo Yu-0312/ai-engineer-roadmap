@@ -38,10 +38,10 @@ const stageById = id => STAGES.find(s => s.id === id);
 const chapterOf = id => CHAPTERS.find(c => c.stages.includes(id));
 
 function updateRing() {
-  const n = doneCount();
+  const n = doneCount(), total = STAGES.length;
   const fg = $("#ringFg"), txt = $("#progressText");
-  if (fg) fg.style.strokeDasharray = `${(n / 12) * 100} 100`;
-  if (txt) txt.textContent = `${n}/12`;
+  if (fg) fg.style.strokeDasharray = `${(n / total) * 100} 100`;
+  if (txt) txt.textContent = `${n}/${total}`;
 }
 
 function firstIncomplete() {
@@ -76,8 +76,11 @@ function highlight(code, lang) {
 
 /* ================= HOME ================= */
 function renderHome() {
+  const total = STAGES.length;
+  const quizTotal = STAGES.reduce((sum, s) => sum + s.quiz.length, 0);
+  const demoTotal = STAGES.filter(s => s.demo).length;
   const next = firstIncomplete();
-  const allDone = doneCount() === 12;
+  const allDone = doneCount() === total;
   const cta = allDone
     ? `<a class="btn ok-btn" href="#/capstone">🏆 查看你的結業證書</a>`
     : `<a class="btn" href="#/stage/${next.id}">${doneCount() > 0 ? "▶ 繼續旅程 · 第 " + next.id + " 站" : "▶ 開始第一站 · Python"}</a>
@@ -113,22 +116,22 @@ function renderHome() {
   app.innerHTML = `
   <div class="container">
     <section class="hero">
-      <span class="badge">🔥 2026 版 · 12 站完整路線</span>
+      <span class="badge">🔥 2026 版 · ${total} 站完整路線</span>
       <h1 class="hero-title">AI Engineer <span class="grad">進化之路</span></h1>
-      <p class="hero-sub">從第一行 Python 到把 AI 產品部署上線。12 站環環相扣,每一站都為你的畢業專案
+      <p class="hero-sub">從第一行 Python 到把 AI 產品部署上線。${total} 站環環相扣,每一站都為你的畢業專案
         <b>「DocMind 智慧文件助理」</b>添上一塊積木 — 走完全程,你不只是學會 AI,而是成為能交付 AI 產品的工程師。</p>
       <div class="cta-row">${cta}</div>
       <div class="stats-row">
-        <span class="stat-chip"><b>12</b>學習站</span>
-        <span class="stat-chip"><b>36</b>道隨堂測驗</span>
-        <span class="stat-chip"><b>3</b>座互動實驗室</span>
+        <span class="stat-chip"><b>${total}</b>學習站</span>
+        <span class="stat-chip"><b>${quizTotal}</b>道隨堂測驗</span>
+        <span class="stat-chip"><b>${demoTotal}</b>座互動實驗室</span>
         <span class="stat-chip"><b>1</b>個貫穿專案</span>
       </div>
     </section>
 
     <section class="section">
       <h2 class="section-title">🔗 為什麼這條路線「有連貫性」?</h2>
-      <p class="section-sub">這不是 12 堂零散的課,而是一段有主線劇情的旅程。</p>
+      <p class="section-sub">這不是 ${total} 堂零散的課,而是一段有主線劇情的旅程。</p>
       <div class="coherent-grid">
         <div class="co-card"><div class="co-icon">🧩</div>
           <h3>一個貫穿全程的專案</h3>
@@ -195,9 +198,9 @@ function renderStage(id) {
     <div class="demo-card" id="demo-${s.demo}">${demoSkeleton(s.demo)}</div>` : "";
 
   const statusChip = done
-    ? `<span class="chip status-done">✓ 已完成</span>`
-    : passed ? `<span class="chip status-next">📝 測驗已通過,待標記完成</span>`
-    : `<span class="chip">學習中</span>`;
+    ? `<span class="chip status-done" id="stageStatusChip">✓ 已完成</span>`
+    : passed ? `<span class="chip status-next" id="stageStatusChip">📝 測驗已通過,待標記完成</span>`
+    : `<span class="chip" id="stageStatusChip">學習中</span>`;
 
   app.innerHTML = `
   <div class="container">
@@ -347,6 +350,7 @@ function bindStagePage(s, done, passed) {
     checkBtn.classList.add("disabled");
     retryBtn.classList.remove("hidden");
     if (done) showCompletedBlock(s);
+    else showFinishButton(s);
   }
 
   retryBtn.addEventListener("click", () => {
@@ -391,8 +395,7 @@ function bindStagePage(s, done, passed) {
       checkBtn.classList.add("disabled");
       checkBtn.textContent = "✅ 已通過";
       if (!isDone(s.id)) {
-        completeArea.innerHTML = `<button class="btn ok-btn" id="finishBtn" type="button">✓ 標記第 ${s.id} 站完成</button>`;
-        $("#finishBtn").addEventListener("click", () => finishStage(s));
+        showFinishButton(s);
       } else {
         showCompletedBlock(s);
       }
@@ -409,6 +412,11 @@ function showCompletedBlock(s) {
     <div class="result ok">🏅 第 ${s.id} 站已完成${next ? ` — 下一站:<a href="#/stage/${next.id}">${next.emoji} ${next.title}</a>` : ` — <a href="#/capstone">前往畢業專案 🏆</a>`}</div>`;
 }
 
+function showFinishButton(s) {
+  $("#completeArea").innerHTML = `<button class="btn ok-btn" id="finishBtn" type="button">✓ 標記第 ${s.id} 站完成</button>`;
+  $("#finishBtn").addEventListener("click", () => finishStage(s));
+}
+
 function finishStage(s) {
   state.completed = state.completed || {};
   state.completed[s.id] = Date.now();
@@ -419,9 +427,9 @@ function finishStage(s) {
     <div class="result ok">🎉 第 ${s.id} 站完成!積木又多了一塊。</div>
     <div style="margin-top:14px"><a class="btn" href="#/stage/${next.id}">前往第 ${next.id} 站 · ${next.emoji} ${next.title} →</a></div>`
     : `
-    <div class="result ok">🏁 12 站全部完成!你已解鎖 AI Engineer。</div>
+    <div class="result ok">🏁 全部 ${STAGES.length} 站完成!你已解鎖 AI Engineer。</div>
     <div style="margin-top:14px"><a class="btn ok-btn" href="#/capstone">🏆 前往畢業專案,領取結業證書</a></div>`;
-  const chip = app.querySelector(".stage-hero .meta-chips .chip");
+  const chip = $("#stageStatusChip");
   if (chip) {
     chip.className = "chip status-done";
     chip.textContent = "✓ 已完成";
@@ -563,8 +571,8 @@ function initEmbDemo() {
 
 /* ================= CAPSTONE ================= */
 function renderCapstone() {
-  const done = doneCount();
-  const all = done === 12;
+  const done = doneCount(), total = STAGES.length;
+  const all = done === total;
   const today = new Date().toLocaleDateString("zh-TW", { year: "numeric", month: "long", day: "numeric" });
 
   const checklist = STAGES.map(s => `
@@ -575,8 +583,8 @@ function renderCapstone() {
 
   const progressBlock = all ? "" : `
     <div class="callout connect" style="margin-top:30px">
-      <div class="callout-title">📊 目前進度:${done} / 12</div>
-      還差 ${12 - done} 站就能領取結業證書。${done === 0
+      <div class="callout-title">📊 目前進度:${done} / ${total}</div>
+      還差 ${total - done} 站就能領取結業證書。${done === 0
         ? `從<a href="#/stage/1">第一站 Python</a> 開始吧!`
         : `下一站:<a href="#/stage/${stageById(firstIncomplete().id).id}">${firstIncomplete().emoji} ${firstIncomplete().title}</a>`}
     </div>`;
@@ -586,7 +594,7 @@ function renderCapstone() {
       <div class="cert-frame"><div class="cert-inner">
         <div class="cert-top">🏆 AI ENGINEER ROADMAP 2026 · 結業證書</div>
         <h2 id="certName">${esc(state.name || "你的名字")}</h2>
-        <p>已完成全部 12 站學習旅程,成功打造並上線畢業專案
+        <p>已完成全部 ${total} 站學習旅程,成功打造並上線畢業專案
           <b>「DocMind 智慧文件助理」</b> — 具備 RAG 知識檢索、Agent 工具呼叫與雲端部署的完整 AI 應用。</p>
         <div class="cert-foot"><span>📅 ${today}</span><span>AI Engineer ✦ 解鎖</span></div>
       </div></div>
@@ -599,7 +607,7 @@ function renderCapstone() {
       <div class="cert-frame"><div class="cert-inner">
         <div class="cert-top">🔒 結業證書 · 尚未解鎖</div>
         <h2>?</h2>
-        <p>完成全部 12 站後,這裡會出現你的專屬結業證書。</p>
+        <p>完成全部 ${total} 站後,這裡會出現你的專屬結業證書。</p>
       </div></div>
     </div>`;
 
@@ -611,7 +619,7 @@ function renderCapstone() {
         <div>
           <div class="stage-kicker">CAPSTONE PROJECT</div>
           <h1 class="stage-title">DocMind 智慧文件助理</h1>
-          <p class="stage-tagline">12 站積木,拼成一個真正能上線的 AI 產品。</p>
+          <p class="stage-tagline">${total} 站積木,拼成一個真正能上線的 AI 產品。</p>
         </div>
       </div>
       <div class="meta-chips">
@@ -642,7 +650,7 @@ function renderCapstone() {
       </div>
     </div>
 
-    <h2 class="block-title">✅ 12 站積木檢查清單</h2>
+    <h2 class="block-title">✅ ${total} 站積木檢查清單</h2>
     <div class="cap-check">${checklist}</div>
     ${progressBlock}
 
@@ -665,7 +673,10 @@ function route() {
   const h = location.hash || "#/";
   const m = h.match(/^#\/stage\/(\d+)/);
   if (h.startsWith("#/capstone")) renderCapstone();
-  else if (m) renderStage(Math.min(12, Math.max(1, +m[1])));
+  else if (m) {
+    const maxId = STAGES[STAGES.length - 1].id;
+    renderStage(Math.min(maxId, Math.max(1, +m[1])));
+  }
   else renderHome();
   window.scrollTo(0, 0);
   updateRing();

@@ -224,9 +224,8 @@ ai-engineer-roadmap/
 1. 在 `stages-a.js` / `stages-b.js` 新增站點物件,`id` 接續編號。
 2. 更新 `app.js` 的 `CHAPTERS`,把新站放進對應章節。
 3. 若要新增互動實驗室,同步補 `DEMO_NAMES`、`demoSkeleton()` 與對應的 `init*Demo()`。
-4. `app.js` 內多處以 **12** 作為分母或門檻(進度環、`doneCount() === 12`、首頁統計、證書解鎖),新增站點時要一起調整。
-5. 更新 README 的站數、表格與首頁文案。
-6. 跑一次外部連結檢查(見下方)。
+4. 更新 README 的站數、表格與文案;進度環、首頁統計與證書門檻都會自動跟著 `STAGES.length` 計算。
+5. 跑一次外部連結檢查(見下方)。
 
 ## 進度與隱私
 
