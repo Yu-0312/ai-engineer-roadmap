@@ -1,18 +1,20 @@
-/* ============ AI Engineer Roadmap 2026 — App ============ */
+/* ============ FDE Roadmap 2026 — App ============ */
 (() => {
 "use strict";
 
 const KEY = "ai-roadmap-2026-progress-v1";
 const STAGES = [...(window.STAGES_A || []), ...(window.STAGES_B || [])];
 const CHAPTERS = [
-  { id: 1, name: "第一章 · 奠基", en: "Foundation", stages: [1, 2, 3], color: "#60a5fa",
-    desc: "Python、Git、SQL — 工程師的三塊基石,一切從這裡開始。" },
-  { id: 2, name: "第二章 · 智慧", en: "Intelligence", stages: [4, 5, 6], color: "#a78bfa",
-    desc: "機器學習 → 神經網路 → 大型語言模型,看懂 AI 的原理。" },
-  { id: 3, name: "第三章 · 應用", en: "Application", stages: [7, 8, 9], color: "#f472b6",
-    desc: "提示詞、RAG、向量搜尋 — 讓 LLM 真正有用的三大技術。" },
-  { id: 4, name: "第四章 · 發布", en: "Launch", stages: [10, 11, 12], color: "#34d399",
-    desc: "Agent、部署、產品化 — 把你的 AI 交到世界手上。" },
+  { id: 1, name: "第一章 · 工程基本功", en: "Field Engineering Basics", stages: [1, 2, 3, 4], color: "#60a5fa",
+    desc: "Python、Git、SQL、REST API — 進到客戶現場,靠這四樣把資料搬出來、把交付留下痕跡。" },
+  { id: 2, name: "第二章 · AI 原理", en: "How the Model Works", stages: [5, 6, 7], color: "#a78bfa",
+    desc: "機器學習與 Transformer 速讀 → LLM 到底怎麼運作 → 提示詞工程:你得看懂你要交付的東西。" },
+  { id: 3, name: "第三章 · 應用搭建", en: "Build the System", stages: [8, 9, 10], color: "#f472b6",
+    desc: "RAG、向量資料庫、Agent 工具 — 讓助理用客戶自己的資料與系統回答問題、把事情辦好。" },
+  { id: 4, name: "第四章 · 客戶現場", en: "The Forward Part", stages: [11, 12, 13], color: "#fb923c",
+    desc: "需求訪談、資安合規與成本、部署進客戶環境 — FDE 真正拉開差距的地方。" },
+  { id: 5, name: "第五章 · 交付與迭代", en: "Ship & Sustain", stages: [14, 15], color: "#34d399",
+    desc: "用 evals 證明品質,用 runbook、教育訓練與 ROI 讓案子在你不在的時候還能繼續跑。" },
 ];
 const DEMO_NAMES = { temperature: "🧪 互動實驗室 · Temperature 模擬器",
                      prompt: "🧪 互動實驗室 · 提示詞建構器",
@@ -55,7 +57,9 @@ const KW = {
   sql: "SELECT|FROM|WHERE|JOIN|ON|GROUP BY|ORDER BY|CREATE TABLE|INSERT INTO|VALUES|PRIMARY KEY|REFERENCES|DEFAULT|NOT NULL|COUNT|AS|DESC|ASC|CHECK|IN|SERIAL|TEXT|INTEGER|TIMESTAMP|NOW",
   dockerfile: "FROM|WORKDIR|COPY|RUN|ENV|EXPOSE|CMD",
 };
+const RAW_LANGS = { markdown: 1, text: 1 };   // 文件類交付物:原樣呈現,不上色
 function highlight(code, lang) {
+  if (RAW_LANGS[lang]) return esc(code);
   const k = KW[lang] || KW.python;
   const re = new RegExp(
     '("""[\\s\\S]*?"""|"(?:[^"\\\\\\n]|\\\\.)*"|\'(?:[^\'\\\\\\n]|\\\\.)*\'|#[^\\n]*|--[^\\n]*|\\b(?:' +
@@ -84,7 +88,7 @@ function renderHome() {
   const cta = allDone
     ? `<a class="btn ok-btn" href="#/capstone">🏆 查看你的結業證書</a>`
     : `<a class="btn" href="#/stage/${next.id}">${doneCount() > 0 ? "▶ 繼續旅程 · 第 " + next.id + " 站" : "▶ 開始第一站 · Python"}</a>
-       <a class="btn secondary" href="#/capstone">🚀 看看畢業專案</a>`;
+       <a class="btn secondary" href="#/capstone">🤝 看看畢業交付案</a>`;
 
   const timeline = CHAPTERS.map(ch => {
     const head = `<div class="chapter-head" style="--ch:${ch.color}">
@@ -116,39 +120,40 @@ function renderHome() {
   app.innerHTML = `
   <div class="container">
     <section class="hero">
-      <span class="badge">🔥 2026 版 · ${total} 站完整路線</span>
-      <h1 class="hero-title">AI Engineer <span class="grad">進化之路</span></h1>
-      <p class="hero-sub">從第一行 Python 到把 AI 產品部署上線。${total} 站環環相扣,每一站都為你的畢業專案
-        <b>「DocMind 智慧文件助理」</b>添上一塊積木 — 走完全程,你不只是學會 AI,而是成為能交付 AI 產品的工程師。</p>
+      <span class="badge">🧭 2026 版 · ${total} 站 · FDE 課程導向</span>
+      <h1 class="hero-title">Forward Deployed <span class="grad">Engineer</span></h1>
+      <p class="hero-sub">AI 時代新生的職位:不待在自己辦公室,而是進到客戶現場,把 LLM、資料和對方的系統組成一
+        個真的有人每天在用的東西。這 ${total} 站沿著一條導入案走 — 從「北辰零售集團」的一句「我們想要 AI 客服」,
+        到上線、教育訓練、續約。走完全程,你不只是學過 AI,而是能獨立交付一個 AI 專案。</p>
       <div class="cta-row">${cta}</div>
       <div class="stats-row">
         <span class="stat-chip"><b>${total}</b>學習站</span>
         <span class="stat-chip"><b>${quizTotal}</b>道隨堂測驗</span>
         <span class="stat-chip"><b>${demoTotal}</b>座互動實驗室</span>
-        <span class="stat-chip"><b>1</b>個貫穿專案</span>
+        <span class="stat-chip"><b>1</b>個客戶導入案</span>
       </div>
     </section>
 
     <section class="section">
-      <h2 class="section-title">🔗 為什麼這條路線「有連貫性」?</h2>
-      <p class="section-sub">這不是 ${total} 堂零散的課,而是一段有主線劇情的旅程。</p>
+      <h2 class="section-title">🧭 為什麼課程這樣安排?</h2>
+      <p class="section-sub">FDE 的工作一半是技術、一半是現場。所以這 ${total} 站不是 AI 名詞清單,而是一段有主線的導入旅程。</p>
       <div class="coherent-grid">
-        <div class="co-card"><div class="co-icon">🧩</div>
-          <h3>一個貫穿全程的專案</h3>
-          <p>每一站都為「DocMind 智慧文件助理」加上一塊積木:讀文件 → 版本控制 → 存資料 → 分類意圖 → 神經網路 → 接上 LLM → 設計提示詞 → RAG → 向量搜尋 → Agent → 容器化 → 上線。</p></div>
+        <div class="co-card"><div class="co-icon">🏬</div>
+          <h3>一個真實的導入案貫穿全程</h3>
+          <p>虛構客戶「北辰零售集團」:300 份政策文件、12 位第一線客服、一句「我們想要 AI 客服」。每一站的結尾都有一樣要交出去的東西 — 一支程式、一份文件,或一張說明白皮。</p></div>
         <div class="co-card"><div class="co-icon">🔗</div>
-          <h3>每站都承接上一站</h3>
-          <p>每頁開頭的「接續上一站」告訴你為什麼先學這個、再學那個;結尾預告下一站 — 知識像鎖鏈一樣環環相扣,而不是孤立的清單。</p></div>
+          <h3>技術與現場各佔一半</h3>
+          <p>第 1–10 站建立技術能力(基本功、AI 原理、應用搭建);第 11–15 站才是 FDE 的分水嶺:訪談定義問題、通過資安審查、裝進客戶環境、用數字證明價值。每頁開頭的「接續上一站」會告訴你為什麼是這個順序。</p></div>
         <div class="co-card"><div class="co-icon">🎮</div>
           <h3>玩中學,學中玩</h3>
           <p>每站都有翻牌概念卡、可複製的程式碼、隨堂測驗;第 6、7、9 站還有互動實驗室:temperature 模擬器、提示詞建構器、語意空間地圖。</p></div>
       </div>
-      <div class="docmind-strip">🚀 <b>畢業專案 DocMind:</b>上傳你的文件,AI 助理能引用來源回答問題、呼叫工具、查資料庫 — 用 Docker 部署上雲。學完就能寫進履歷。</div>
+      <div class="docmind-strip">🤝 <b>畢業交付案「北辰導入案」:</b>需求訪談紀錄 → 有來源標註的 RAG 問答 → 接上訂單系統的 Agent → 裝進客戶 VPC → 50 題 evals → runbook 與 ROI 單頁。這份交付包,就是你履歷上第一個 FDE 案例。</div>
     </section>
 
     <section class="section" id="roadmap">
       <h2 class="section-title">🗺️ 學習路線圖</h2>
-      <p class="section-sub">點擊任一站卡片進入學習。建議按順序走,每一站都以前一站為基礎。</p>
+      <p class="section-sub">點擊任一站卡片進入學習。建議照順序走 — 每週抓 8–10 小時,全程約 6–7 個月,學完正好能獨立扛起一個四週的導入案。</p>
       ${timeline}
     </section>
   </div>`;
@@ -228,7 +233,7 @@ function renderStage(id) {
     </div>
 
     <div class="callout docmind">
-      <div class="callout-title">🧩 本站為畢業專案 DocMind 添上</div>
+      <div class="callout-title">🤝 本站要交付給「北辰導入案」的</div>
       ${s.contribution}
     </div>
 
@@ -268,7 +273,7 @@ function renderStage(id) {
     <nav class="pn-nav">
       ${prev ? `<a class="pn-btn" href="#/stage/${prev.id}"><span class="pn-label">← 上一站</span><span class="pn-title">${prev.emoji} ${prev.title}</span></a>` : `<span class="pn-btn off"></span>`}
       ${next ? `<a class="pn-btn next" href="#/stage/${next.id}"><span class="pn-label">下一站 →</span><span class="pn-title">${next.emoji} ${next.title}</span></a>`
-             : `<a class="pn-btn next" href="#/capstone"><span class="pn-label">終點 →</span><span class="pn-title">🏆 查看畢業專案</span></a>`}
+             : `<a class="pn-btn next" href="#/capstone"><span class="pn-label">終點 →</span><span class="pn-title">🏆 查看畢業交付案</span></a>`}
     </nav>
   </div>`;
 
@@ -409,7 +414,7 @@ function bindStagePage(s, done, passed) {
 function showCompletedBlock(s) {
   const next = stageById(s.id + 1);
   $("#completeArea").innerHTML = `
-    <div class="result ok">🏅 第 ${s.id} 站已完成${next ? ` — 下一站:<a href="#/stage/${next.id}">${next.emoji} ${next.title}</a>` : ` — <a href="#/capstone">前往畢業專案 🏆</a>`}</div>`;
+    <div class="result ok">🏅 第 ${s.id} 站已完成${next ? ` — 下一站:<a href="#/stage/${next.id}">${next.emoji} ${next.title}</a>` : ` — <a href="#/capstone">前往畢業交付案 🏆</a>`}</div>`;
 }
 
 function showFinishButton(s) {
@@ -427,8 +432,8 @@ function finishStage(s) {
     <div class="result ok">🎉 第 ${s.id} 站完成!積木又多了一塊。</div>
     <div style="margin-top:14px"><a class="btn" href="#/stage/${next.id}">前往第 ${next.id} 站 · ${next.emoji} ${next.title} →</a></div>`
     : `
-    <div class="result ok">🏁 全部 ${STAGES.length} 站完成!你已解鎖 AI Engineer。</div>
-    <div style="margin-top:14px"><a class="btn ok-btn" href="#/capstone">🏆 前往畢業專案,領取結業證書</a></div>`;
+    <div class="result ok">🏁 全部 ${STAGES.length} 站完成!你已經具備 FDE 的完整交付能力。</div>
+    <div style="margin-top:14px"><a class="btn ok-btn" href="#/capstone">🏆 前往畢業交付案,領取結業證書</a></div>`;
   const chip = $("#stageStatusChip");
   if (chip) {
     chip.className = "chip status-done";
@@ -592,11 +597,11 @@ function renderCapstone() {
   const certificate = all ? `
     <div class="certificate" id="certSection">
       <div class="cert-frame"><div class="cert-inner">
-        <div class="cert-top">🏆 AI ENGINEER ROADMAP 2026 · 結業證書</div>
+        <div class="cert-top">🏆 FDE ROADMAP 2026 · 結業證書</div>
         <h2 id="certName">${esc(state.name || "你的名字")}</h2>
-        <p>已完成全部 ${total} 站學習旅程,成功打造並上線畢業專案
-          <b>「DocMind 智慧文件助理」</b> — 具備 RAG 知識檢索、Agent 工具呼叫與雲端部署的完整 AI 應用。</p>
-        <div class="cert-foot"><span>📅 ${today}</span><span>AI Engineer ✦ 解鎖</span></div>
+        <p>已完成全部 ${total} 站,並交付「北辰零售集團 · 客服文件助理導入案」—
+          從需求訪談、RAG 與 Agent 實作、資安合規、部署進客戶環境,到 evals、runbook 與 ROI 的完整 FDE 實戰。</p>
+        <div class="cert-foot"><span>📅 ${today}</span><span>Forward Deployed Engineer ✦ 能交付</span></div>
       </div></div>
       <div class="cert-tools">
         <input id="nameInput" placeholder="輸入你的名字" value="${esc(state.name || "")}" maxlength="24" />
@@ -613,48 +618,70 @@ function renderCapstone() {
 
   app.innerHTML = `
   <div class="container">
-    <p class="crumb"><a href="#/">🗺️ 路線圖</a> / <b>🚀 畢業專案 DocMind</b></p>
+    <p class="crumb"><a href="#/">🗺️ 路線圖</a> / <b>🤝 畢業交付案</b></p>
     <header class="stage-hero">
-      <div class="stage-hero-top"><span class="stage-emoji">🚀</span>
+      <div class="stage-hero-top"><span class="stage-emoji">🤝</span>
         <div>
-          <div class="stage-kicker">CAPSTONE PROJECT</div>
-          <h1 class="stage-title">DocMind 智慧文件助理</h1>
-          <p class="stage-tagline">${total} 站積木,拼成一個真正能上線的 AI 產品。</p>
+          <div class="stage-kicker">CAPSTONE · 客戶導入案例</div>
+          <h1 class="stage-title">北辰零售集團 · 客服文件助理導入案</h1>
+          <p class="stage-tagline">${total} 站的積木,拼成一次真的有人每天在用的交付。</p>
         </div>
       </div>
       <div class="meta-chips">
-        <span class="chip">🎯 RAG 問答 + 來源標註</span>
-        <span class="chip">🛠️ Agent 工具呼叫</span>
-        <span class="chip">🐳 Docker 雲端部署</span>
+        <span class="chip">🎯 從訪談開始</span>
+        <span class="chip">📚 RAG + 門市過濾</span>
+        <span class="chip">🛠️ Agent 接客戶系統</span>
+        <span class="chip">🔐 過資安審查</span>
+        <span class="chip">🐳 裝進客戶 VPC</span>
+        <span class="chip">📈 50 題 evals</span>
+        <span class="chip">🤝 runbook 與 ROI</span>
       </div>
     </header>
+
+    <div class="callout connect">
+      <div class="callout-title">📋 這個案子怎麼開始的</div>
+      北辰零售集團:12 間門市、12 位第一線客服、300 份政策與流程文件。專案從客服主管的一句「我們想要一個 AI 客服」開始 —
+      而你的工作不是當場寫 code,是把這句話變成一道可衡量的問題,再做成一個客服真的會用、資安肯簽名、IT 能自己接手的東西。
+    </div>
+
+    <h2 class="block-title">🗓️ 四週導入時間軸(每一格對應課程的哪幾站)</h2>
+    <div class="arch-grid">
+      <div class="arch-box">第 1 週 · 訪談與定義<small>第 11 站 → discovery-notes.md</small></div>
+      <div class="arch-box">第 1–2 週 · 資料與系統<small>第 1–4 站 → 同步腳本 + 資料庫</small></div>
+      <div class="arch-box">第 2–3 週 · 助理本體<small>第 5–10 站 → RAG + 向量庫 + 工具</small></div>
+      <div class="arch-box">第 3 週 · 資安與成本<small>第 12 站 → 說明白皮 + 遮罩模組</small></div>
+      <div class="arch-box">第 4 週 · 部署與訓練<small>第 13、15 站 → image + runbook</small></div>
+      <div class="arch-box">上線後 · 量測與迭代<small>第 14 站 → 50 題 evals + 監控</small></div>
+    </div>
 
     <h2 class="block-title">🏗️ DocMind 的完整架構</h2>
     <div class="arch">
       <div class="arch-row">
-        <div class="arch-box">🖥️ 使用者<small>網頁聊天介面</small></div>
+        <div class="arch-box">👩‍💼 北辰客服<small>內部入口網站的聊天視窗</small></div>
         <div class="arch-arrow">⇄</div>
-        <div class="arch-box">⚡ FastAPI 後端<small>REST API · 第 11 站</small></div>
+        <div class="arch-box">⚡ FastAPI 後端<small>封裝成 Docker image · 第 13 站</small></div>
       </div>
       <div class="arch-row"><div class="arch-arrow">⇣</div></div>
       <div class="arch-docker">
-        <span class="docker-label">🐳 Docker 容器 · 部署於雲端</span>
+        <span class="docker-label">🔒 跑在客戶的 VPC 裡 · 資料不出境(第 12 站)</span>
         <div class="arch-grid">
           <div class="arch-box">📚 RAG 管線<small>切塊 → 向量化 → 檢索 · 第 8 站</small></div>
-          <div class="arch-box">🧩 向量資料庫<small>Chroma · 語意搜尋 · 第 9 站</small></div>
-          <div class="arch-box">🤖 Agent 工具層<small>Function Calling / MCP · 第 10 站</small></div>
-          <div class="arch-box">💾 SQL 資料庫<small>文件與對話紀錄 · 第 3 站</small></div>
-          <div class="arch-box">🧠 LLM API<small>溫度 / 提示詞設計 · 第 6–7 站</small></div>
-          <div class="arch-box">📊 評估與監控<small>Evals · 觀測指標 · 第 4、12 站</small></div>
+          <div class="arch-box">🧩 向量資料庫<small>Chroma + 門市過濾 · 第 9 站</small></div>
+          <div class="arch-box">🤖 Agent 工具層<small>查訂單 / 轉人工 · 第 10 站</small></div>
+          <div class="arch-box">💾 SQL 資料庫<small>文件與問答紀錄 · 第 3 站</small></div>
+          <div class="arch-box">🔌 入口網站同步<small>OAuth2 · 分頁 · 退避 · 第 4 站</small></div>
+          <div class="arch-box">🧠 LLM API<small>提示詞與溫度 · 第 6–7 站</small></div>
+          <div class="arch-box">🕶️ 個資遮罩<small>進模型前 mask · 第 12 站</small></div>
+          <div class="arch-box">📊 評估與監控<small>50 題 evals · 第 14 站</small></div>
         </div>
       </div>
     </div>
 
-    <h2 class="block-title">✅ ${total} 站積木檢查清單</h2>
+    <h2 class="block-title">✅ ${total} 站交付清單</h2>
     <div class="cap-check">${checklist}</div>
     ${progressBlock}
 
-    <h2 class="block-title">${all ? "🎓 恭喜畢業!" : "🎓 結業證書"}</h2>
+    <h2 class="block-title">${all ? "🎓 恭喜交付完成!" : "🎓 結業證書"}</h2>
     ${certificate}
   </div>`;
 

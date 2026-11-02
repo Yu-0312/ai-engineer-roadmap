@@ -1,120 +1,119 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="1040" height="620" viewBox="0 0 1040 620" role="img" aria-label="AI Engineer Roadmap 2026:四章、12 站,最後拼成 DocMind">
+<svg xmlns="http://www.w3.org/2000/svg" width="1120" height="758" viewBox="0 0 1120 758" role="img" aria-label="FDE Roadmap 2026:五章、15 站,最後交付一個客戶導入案">
   <defs>
     <marker id="down" viewBox="0 0 10 10" refX="5" refY="8" markerWidth="5" markerHeight="5" orient="auto">
       <path d="M0,0 L10,0 L5,10 z" fill="#d6d3d1"/>
     </marker>
   </defs>
 
-  <rect x="1" y="1" width="1038" height="618" rx="18" fill="#fafaf9" stroke="#e4e4e7"/>
+  <rect x="1" y="1" width="1118" height="756" rx="18" fill="#fafaf9" stroke="#e4e4e7"/>
 
   <g font-family="'PingFang TC','Noto Sans TC','Microsoft JhengHei',system-ui,sans-serif">
-    <text x="40" y="34" font-size="11" letter-spacing="2.2" fill="#a8a29e">12 STAGES · 4 CHAPTERS · 1 CAPSTONE</text>
-    <text x="1000" y="34" text-anchor="end" font-size="11" letter-spacing="1" fill="#a8a29e">約 23–30 週</text>
+    <text x="40" y="34" font-size="11" letter-spacing="2.2" fill="#a8a29e">15 STAGES · 5 CHAPTERS · 1 個客戶導入案</text>
+    <text x="1080" y="34" text-anchor="end" font-size="11" letter-spacing="1" fill="#a8a29e">約 24–30 週</text>
 
-    <!-- 第一章 -->
-    <rect x="40" y="64" width="150" height="64" rx="10" fill="#60a5fa" fill-opacity="0.10"/>
+
+    <!-- 第一章 · 工程基本功 -->
+    <rect x="40" y="64" width="140" height="64" rx="10" fill="#60a5fa" fill-opacity="0.13"/>
     <text x="56" y="86" font-size="11" letter-spacing="1.5" fill="#2563eb">第一章</text>
-    <text x="56" y="110" font-size="20" font-weight="700" fill="#1c1917">奠基</text>
+    <text x="56" y="110" font-size="18" font-weight="700" fill="#1c1917">工程基本功</text>
+    <rect x="200" y="64" width="210" height="64" rx="12" fill="#ffffff" stroke="#e4e4e7"/>
+    <text x="216" y="96" font-size="19">🐍</text>
+    <text x="246" y="86" font-size="10" letter-spacing="1" fill="#a8a29e">01</text>
+    <text x="246" y="109" font-size="14" font-weight="700" fill="#1c1917">Python</text>
+    <path d="M413 91 L419 96 L413 101" fill="none" stroke="#cbd5e1" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+    <rect x="426" y="64" width="210" height="64" rx="12" fill="#ffffff" stroke="#e4e4e7"/>
+    <text x="442" y="96" font-size="19">🔧</text>
+    <text x="472" y="86" font-size="10" letter-spacing="1" fill="#a8a29e">02</text>
+    <text x="472" y="109" font-size="14" font-weight="700" fill="#1c1917">Git + GitHub</text>
+    <path d="M639 91 L645 96 L639 101" fill="none" stroke="#cbd5e1" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+    <rect x="652" y="64" width="210" height="64" rx="12" fill="#ffffff" stroke="#e4e4e7"/>
+    <text x="668" y="96" font-size="19">🗄️</text>
+    <text x="698" y="86" font-size="10" letter-spacing="1" fill="#a8a29e">03</text>
+    <text x="698" y="109" font-size="14" font-weight="700" fill="#1c1917">SQL + 資料庫</text>
+    <path d="M865 91 L871 96 L865 101" fill="none" stroke="#cbd5e1" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+    <rect x="878" y="64" width="210" height="64" rx="12" fill="#ffffff" stroke="#e4e4e7"/>
+    <text x="894" y="96" font-size="19">🔌</text>
+    <text x="924" y="86" font-size="10" letter-spacing="1" fill="#a8a29e">04</text>
+    <text x="924" y="109" font-size="14" font-weight="700" fill="#1c1917">REST API 整合</text>
+    <path d="M110 134 V172" stroke="#d6d3d1" stroke-width="1.5" stroke-dasharray="3 3" marker-end="url(#down)"/>
 
-    <rect x="220" y="64" width="240" height="64" rx="12" fill="#ffffff" stroke="#e4e4e7"/>
-    <text x="236" y="96" font-size="20">🐍</text>
-    <text x="266" y="86" font-size="10" letter-spacing="1" fill="#a8a29e">01</text>
-    <text x="266" y="108" font-size="15" font-weight="700" fill="#1c1917">Python</text>
-
-    <path d="M468 91 L474 96 L468 101" fill="none" stroke="#cbd5e1" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
-
-    <rect x="486" y="64" width="240" height="64" rx="12" fill="#ffffff" stroke="#e4e4e7"/>
-    <text x="502" y="96" font-size="20">🔧</text>
-    <text x="532" y="86" font-size="10" letter-spacing="1" fill="#a8a29e">02</text>
-    <text x="532" y="108" font-size="15" font-weight="700" fill="#1c1917">Git + GitHub</text>
-
-    <path d="M734 91 L740 96 L734 101" fill="none" stroke="#cbd5e1" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
-
-    <rect x="752" y="64" width="240" height="64" rx="12" fill="#ffffff" stroke="#e4e4e7"/>
-    <text x="768" y="96" font-size="20">🗄️</text>
-    <text x="798" y="86" font-size="10" letter-spacing="1" fill="#a8a29e">03</text>
-    <text x="798" y="108" font-size="15" font-weight="700" fill="#1c1917">SQL + 資料庫</text>
-
-    <path d="M205 132 V178" stroke="#d6d3d1" stroke-width="1.5" stroke-dasharray="3 3" marker-end="url(#down)"/>
-
-    <!-- 第二章 -->
-    <rect x="40" y="184" width="150" height="64" rx="10" fill="#a78bfa" fill-opacity="0.12"/>
+    <!-- 第二章 · AI 原理 -->
+    <rect x="40" y="184" width="140" height="64" rx="10" fill="#a78bfa" fill-opacity="0.13"/>
     <text x="56" y="206" font-size="11" letter-spacing="1.5" fill="#7c3aed">第二章</text>
-    <text x="56" y="230" font-size="20" font-weight="700" fill="#1c1917">智慧</text>
+    <text x="56" y="230" font-size="18" font-weight="700" fill="#1c1917">AI 原理</text>
+    <rect x="200" y="184" width="210" height="64" rx="12" fill="#ffffff" stroke="#e4e4e7"/>
+    <text x="216" y="216" font-size="19">📊</text>
+    <text x="246" y="206" font-size="10" letter-spacing="1" fill="#a8a29e">05</text>
+    <text x="246" y="229" font-size="14" font-weight="700" fill="#1c1917">ML 與 DL 速讀</text>
+    <path d="M413 211 L419 216 L413 221" fill="none" stroke="#cbd5e1" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+    <rect x="426" y="184" width="210" height="64" rx="12" fill="#ffffff" stroke="#e4e4e7"/>
+    <text x="442" y="216" font-size="19">🤖</text>
+    <text x="472" y="206" font-size="10" letter-spacing="1" fill="#a8a29e">06</text>
+    <text x="472" y="229" font-size="14" font-weight="700" fill="#1c1917">LLM 基礎</text>
+    <path d="M639 211 L645 216 L639 221" fill="none" stroke="#cbd5e1" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+    <rect x="652" y="184" width="210" height="64" rx="12" fill="#ffffff" stroke="#e4e4e7"/>
+    <text x="668" y="216" font-size="19">✍️</text>
+    <text x="698" y="206" font-size="10" letter-spacing="1" fill="#a8a29e">07</text>
+    <text x="698" y="229" font-size="14" font-weight="700" fill="#1c1917">提示詞工程</text>
+    <path d="M110 254 V292" stroke="#d6d3d1" stroke-width="1.5" stroke-dasharray="3 3" marker-end="url(#down)"/>
 
-    <rect x="220" y="184" width="240" height="64" rx="12" fill="#ffffff" stroke="#e4e4e7"/>
-    <text x="236" y="216" font-size="20">📊</text>
-    <text x="266" y="206" font-size="10" letter-spacing="1" fill="#a8a29e">04</text>
-    <text x="266" y="228" font-size="15" font-weight="700" fill="#1c1917">機器學習</text>
-
-    <path d="M468 211 L474 216 L468 221" fill="none" stroke="#cbd5e1" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
-
-    <rect x="486" y="184" width="240" height="64" rx="12" fill="#ffffff" stroke="#e4e4e7"/>
-    <text x="502" y="216" font-size="20">🧠</text>
-    <text x="532" y="206" font-size="10" letter-spacing="1" fill="#a8a29e">05</text>
-    <text x="532" y="228" font-size="15" font-weight="700" fill="#1c1917">深度學習 · PyTorch</text>
-
-    <path d="M734 211 L740 216 L734 221" fill="none" stroke="#cbd5e1" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
-
-    <rect x="752" y="184" width="240" height="64" rx="12" fill="#ffffff" stroke="#e4e4e7"/>
-    <text x="768" y="216" font-size="20">🤖</text>
-    <text x="798" y="206" font-size="10" letter-spacing="1" fill="#a8a29e">06</text>
-    <text x="798" y="228" font-size="15" font-weight="700" fill="#1c1917">LLM 基礎</text>
-
-    <path d="M205 252 V298" stroke="#d6d3d1" stroke-width="1.5" stroke-dasharray="3 3" marker-end="url(#down)"/>
-
-    <!-- 第三章 -->
-    <rect x="40" y="304" width="150" height="64" rx="10" fill="#f472b6" fill-opacity="0.12"/>
+    <!-- 第三章 · 應用搭建 -->
+    <rect x="40" y="304" width="140" height="64" rx="10" fill="#f472b6" fill-opacity="0.13"/>
     <text x="56" y="326" font-size="11" letter-spacing="1.5" fill="#db2777">第三章</text>
-    <text x="56" y="350" font-size="20" font-weight="700" fill="#1c1917">應用</text>
+    <text x="56" y="350" font-size="18" font-weight="700" fill="#1c1917">應用搭建</text>
+    <rect x="200" y="304" width="210" height="64" rx="12" fill="#ffffff" stroke="#e4e4e7"/>
+    <text x="216" y="336" font-size="19">📚</text>
+    <text x="246" y="326" font-size="10" letter-spacing="1" fill="#a8a29e">08</text>
+    <text x="246" y="349" font-size="14" font-weight="700" fill="#1c1917">RAG 檢索增強</text>
+    <path d="M413 331 L419 336 L413 341" fill="none" stroke="#cbd5e1" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+    <rect x="426" y="304" width="210" height="64" rx="12" fill="#ffffff" stroke="#e4e4e7"/>
+    <text x="442" y="336" font-size="19">🧩</text>
+    <text x="472" y="326" font-size="10" letter-spacing="1" fill="#a8a29e">09</text>
+    <text x="472" y="349" font-size="14" font-weight="700" fill="#1c1917">向量資料庫</text>
+    <path d="M639 331 L645 336 L639 341" fill="none" stroke="#cbd5e1" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+    <rect x="652" y="304" width="210" height="64" rx="12" fill="#ffffff" stroke="#e4e4e7"/>
+    <text x="668" y="336" font-size="19">🛠️</text>
+    <text x="698" y="326" font-size="10" letter-spacing="1" fill="#a8a29e">10</text>
+    <text x="698" y="349" font-size="14" font-weight="700" fill="#1c1917">AI Agents</text>
+    <path d="M110 374 V412" stroke="#d6d3d1" stroke-width="1.5" stroke-dasharray="3 3" marker-end="url(#down)"/>
 
-    <rect x="220" y="304" width="240" height="64" rx="12" fill="#ffffff" stroke="#e4e4e7"/>
-    <text x="236" y="336" font-size="20">✍️</text>
-    <text x="266" y="326" font-size="10" letter-spacing="1" fill="#a8a29e">07</text>
-    <text x="266" y="348" font-size="15" font-weight="700" fill="#1c1917">提示詞工程</text>
+    <!-- 第四章 · 客戶現場 -->
+    <rect x="40" y="424" width="140" height="64" rx="10" fill="#fb923c" fill-opacity="0.13"/>
+    <text x="56" y="446" font-size="11" letter-spacing="1.5" fill="#ea580c">第四章</text>
+    <text x="56" y="470" font-size="18" font-weight="700" fill="#1c1917">客戶現場</text>
+    <rect x="200" y="424" width="210" height="64" rx="12" fill="#ffffff" stroke="#e4e4e7"/>
+    <text x="216" y="456" font-size="19">🎯</text>
+    <text x="246" y="446" font-size="10" letter-spacing="1" fill="#a8a29e">11</text>
+    <text x="246" y="469" font-size="14" font-weight="700" fill="#1c1917">需求訪談</text>
+    <path d="M413 451 L419 456 L413 461" fill="none" stroke="#cbd5e1" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+    <rect x="426" y="424" width="210" height="64" rx="12" fill="#ffffff" stroke="#e4e4e7"/>
+    <text x="442" y="456" font-size="19">🔐</text>
+    <text x="472" y="446" font-size="10" letter-spacing="1" fill="#a8a29e">12</text>
+    <text x="472" y="469" font-size="14" font-weight="700" fill="#1c1917">資安與成本</text>
+    <path d="M639 451 L645 456 L639 461" fill="none" stroke="#cbd5e1" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+    <rect x="652" y="424" width="210" height="64" rx="12" fill="#ffffff" stroke="#e4e4e7"/>
+    <text x="668" y="456" font-size="19">🚀</text>
+    <text x="698" y="446" font-size="10" letter-spacing="1" fill="#a8a29e">13</text>
+    <text x="698" y="469" font-size="14" font-weight="700" fill="#1c1917">部署上線</text>
+    <path d="M110 494 V532" stroke="#d6d3d1" stroke-width="1.5" stroke-dasharray="3 3" marker-end="url(#down)"/>
 
-    <path d="M468 331 L474 336 L468 341" fill="none" stroke="#cbd5e1" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+    <!-- 第五章 · 交付與迭代 -->
+    <rect x="40" y="544" width="140" height="64" rx="10" fill="#34d399" fill-opacity="0.13"/>
+    <text x="56" y="566" font-size="11" letter-spacing="1.5" fill="#059669">第五章</text>
+    <text x="56" y="590" font-size="18" font-weight="700" fill="#1c1917">交付與迭代</text>
+    <rect x="200" y="544" width="210" height="64" rx="12" fill="#ffffff" stroke="#e4e4e7"/>
+    <text x="216" y="576" font-size="19">📈</text>
+    <text x="246" y="566" font-size="10" letter-spacing="1" fill="#a8a29e">14</text>
+    <text x="246" y="589" font-size="14" font-weight="700" fill="#1c1917">評估與監控</text>
+    <path d="M413 571 L419 576 L413 581" fill="none" stroke="#cbd5e1" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+    <rect x="426" y="544" width="210" height="64" rx="12" fill="#ffffff" stroke="#e4e4e7"/>
+    <text x="442" y="576" font-size="19">🤝</text>
+    <text x="472" y="566" font-size="10" letter-spacing="1" fill="#a8a29e">15</text>
+    <text x="472" y="589" font-size="14" font-weight="700" fill="#1c1917">交付與 ROI</text>
 
-    <rect x="486" y="304" width="240" height="64" rx="12" fill="#ffffff" stroke="#e4e4e7"/>
-    <text x="502" y="336" font-size="20">📚</text>
-    <text x="532" y="326" font-size="10" letter-spacing="1" fill="#a8a29e">08</text>
-    <text x="532" y="348" font-size="15" font-weight="700" fill="#1c1917">RAG</text>
-
-    <path d="M734 331 L740 336 L734 341" fill="none" stroke="#cbd5e1" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
-
-    <rect x="752" y="304" width="240" height="64" rx="12" fill="#ffffff" stroke="#e4e4e7"/>
-    <text x="768" y="336" font-size="20">🧩</text>
-    <text x="798" y="326" font-size="10" letter-spacing="1" fill="#a8a29e">09</text>
-    <text x="798" y="348" font-size="15" font-weight="700" fill="#1c1917">向量資料庫</text>
-
-    <path d="M205 372 V418" stroke="#d6d3d1" stroke-width="1.5" stroke-dasharray="3 3" marker-end="url(#down)"/>
-
-    <!-- 第四章 -->
-    <rect x="40" y="424" width="150" height="64" rx="10" fill="#34d399" fill-opacity="0.14"/>
-    <text x="56" y="446" font-size="11" letter-spacing="1.5" fill="#059669">第四章</text>
-    <text x="56" y="470" font-size="20" font-weight="700" fill="#1c1917">發布</text>
-
-    <rect x="220" y="424" width="240" height="64" rx="12" fill="#ffffff" stroke="#e4e4e7"/>
-    <text x="236" y="456" font-size="20">🛠️</text>
-    <text x="266" y="446" font-size="10" letter-spacing="1" fill="#a8a29e">10</text>
-    <text x="266" y="468" font-size="15" font-weight="700" fill="#1c1917">AI Agents</text>
-
-    <path d="M468 451 L474 456 L468 461" fill="none" stroke="#cbd5e1" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
-
-    <rect x="486" y="424" width="240" height="64" rx="12" fill="#ffffff" stroke="#e4e4e7"/>
-    <text x="502" y="456" font-size="20">🚀</text>
-    <text x="532" y="446" font-size="10" letter-spacing="1" fill="#a8a29e">11</text>
-    <text x="532" y="468" font-size="15" font-weight="700" fill="#1c1917">Docker 上雲</text>
-
-    <path d="M734 451 L740 456 L734 461" fill="none" stroke="#cbd5e1" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
-
-    <rect x="752" y="424" width="240" height="64" rx="12" fill="#ffffff" stroke="#e4e4e7"/>
-    <text x="768" y="456" font-size="20">💻</text>
-    <text x="798" y="446" font-size="10" letter-spacing="1" fill="#a8a29e">12</text>
-    <text x="798" y="468" font-size="15" font-weight="700" fill="#1c1917">打造與發布</text>
-
-    <!-- 終點 -->
-    <rect x="40" y="520" width="952" height="64" rx="14" fill="#f0fdf4" stroke="#bbf7d0"/>
-    <text x="516" y="559" text-anchor="middle" font-size="16" font-weight="700" fill="#15803d">🏆 走完 12 站 → DocMind 上線 + 解鎖結業證書</text>
+    <!-- 終點:交付包 -->
+    <rect x="40" y="660" width="1040" height="66" rx="14" fill="#f0fdf4" stroke="#bbf7d0"/>
+    <text x="560" y="687" text-anchor="middle" font-size="16" font-weight="700" fill="#15803d">🏆 走完 15 站 → 「北辰零售集團」導入案交付包 + FDE 結業證書</text>
+    <text x="560" y="709" text-anchor="middle" font-size="12" fill="#4d7c0f">訪談紀錄 · RAG + Agent · 資安與成本 · Docker 部署 · 50 題 evals · runbook 與 ROI</text>
   </g>
 </svg>
